@@ -2969,7 +2969,7 @@ function renderAdminDashboard() {
                         <td class="p-3.5 align-top text-center">
                           ${isPending ? `
                             <div class="flex items-center justify-center gap-1.5 flex-wrap">
-                              <button onclick="approvePayment('${p.order_id}')" class="px-3 py-1.5 rounded-lg text-xs font-black bg-emerald-600 hover:bg-emerald-700 text-white shadow-xs transition-colors flex items-center gap-1 cursor-pointer">
+                              <button onclick="approvePayment('${p.order_id || ''}', '${p.user_id || ''}', '${(phone || '').replace(/[^0-9+]/g, '')}')" class="px-3 py-1.5 rounded-lg text-xs font-black bg-emerald-600 hover:bg-emerald-700 text-white shadow-xs transition-colors flex items-center gap-1 cursor-pointer">
                                 <span>✅</span> ${isReg ? 'Setujui & Verifikasi Akun' : 'Approve PRO'}
                               </button>
                               ${isReg && phone !== '-' ? `
@@ -2977,7 +2977,7 @@ function renderAdminDashboard() {
                                   <span>💬</span> Chat WA
                                 </a>
                               ` : ''}
-                              <button onclick="rejectPayment('${p.order_id}')" class="px-2.5 py-1.5 rounded-lg text-xs font-bold border border-gray-300 hover:bg-rose-50 hover:text-rose-600 text-gray-600 transition-colors cursor-pointer">
+                              <button onclick="rejectPayment('${p.order_id || ''}', '${p.user_id || ''}', '${(phone || '').replace(/[^0-9+]/g, '')}')" class="px-2.5 py-1.5 rounded-lg text-xs font-bold border border-gray-300 hover:bg-rose-50 hover:text-rose-600 text-gray-600 transition-colors cursor-pointer">
                                 ✕ Tolak
                               </button>
                             </div>
@@ -3388,10 +3388,10 @@ function renderAdminDashboard() {
                   Tutup
                 </button>
                 ${state.viewingUserProfile.status === 'pending' ? `
-                  <button type="button" onclick="rejectPayment('${state.viewingUserProfile.order_id}'); closeUserProfileModal();" class="px-4 py-2.5 rounded-xl border border-rose-200 text-rose-600 hover:bg-rose-50 font-bold transition-all cursor-pointer">
+                  <button type="button" onclick="rejectPayment('${state.viewingUserProfile.order_id || ''}', '${state.viewingUserProfile.id || state.viewingUserProfile.user_id || ''}', '${(state.viewingUserProfile.phone_number || '').replace(/[^0-9+]/g, '')}'); closeUserProfileModal();" class="px-4 py-2.5 rounded-xl border border-rose-200 text-rose-600 hover:bg-rose-50 font-bold transition-all cursor-pointer">
                     ✕ Tolak
                   </button>
-                  <button type="button" onclick="approvePayment('${state.viewingUserProfile.order_id}'); closeUserProfileModal();" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold shadow-md shadow-emerald-600/30 flex items-center gap-1.5 transition-all cursor-pointer">
+                  <button type="button" onclick="approvePayment('${state.viewingUserProfile.order_id || ''}', '${state.viewingUserProfile.id || state.viewingUserProfile.user_id || ''}', '${(state.viewingUserProfile.phone_number || '').replace(/[^0-9+]/g, '')}'); closeUserProfileModal();" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold shadow-md shadow-emerald-600/30 flex items-center gap-1.5 transition-all cursor-pointer">
                     <span>✅</span> ${state.viewingUserProfile.type === 'registration_verification' || (state.viewingUserProfile.order_id && state.viewingUserProfile.order_id.startsWith('REG-')) ? 'Setujui & Verifikasi Akun' : 'Approve Pembayaran PRO'}
                   </button>
                 ` : `
@@ -5168,10 +5168,13 @@ window.handleRegister = async function() {
     try {
       const pendingList = JSON.parse(localStorage.getItem('tatadana_pending_registrations') || '[]');
       const cleanPhone = (phoneNumber || '').trim();
-      if (!pendingList.some(p => p.phone_number === cleanPhone)) {
+      const confirmedUserId = (res.user && res.user.id) || ('usr-' + Date.now());
+      const confirmedOrderId = res.order_id || res.orderId || ('REG-' + confirmedUserId.replace('usr-', ''));
+
+      if (!pendingList.some(p => p.phone_number === cleanPhone || p.user_id === confirmedUserId || p.order_id === confirmedOrderId)) {
         pendingList.unshift({
-          order_id: 'REG-' + Date.now(),
-          user_id: (res.user && res.user.id) || ('usr-' + Date.now()),
+          order_id: confirmedOrderId,
+          user_id: confirmedUserId,
           type: 'registration_verification',
           full_name: fullName,
           phone_number: cleanPhone,
@@ -5272,36 +5275,111 @@ window.fetchAdminStats = async function() {
   }
 };
 
-window.approvePayment = async function(orderId) {
+window.approvePayment = async function(orderId, optionalUserId, optionalPhone) {
+  const payments = state.adminPayments || [];
+  const users = state.adminUsers || [];
+
+  const cleanOrder = String(orderId || '').trim();
+  const cleanOptionalUser = String(optionalUserId || '').trim();
+  const cleanOptionalPhone = String(optionalPhone || '').replace(/[^0-9]/g, '');
+
+  let p = payments.find(x => 
+    (cleanOrder && x.order_id === cleanOrder) ||
+    (cleanOrder && x.user_id === cleanOrder) ||
+    (cleanOptionalUser && x.user_id === cleanOptionalUser) ||
+    (cleanOptionalPhone && x.phone_number && x.phone_number.replace(/[^0-9]/g, '') === cleanOptionalPhone)
+  );
+
+  const targetUserId = (p && p.user_id) || cleanOptionalUser || (cleanOrder.startsWith('usr-') ? cleanOrder : '');
+  const u = users.find(x => 
+    (targetUserId && x.id === targetUserId) ||
+    (cleanOrder && x.id === cleanOrder) ||
+    (cleanOptionalPhone && x.phone_number && x.phone_number.replace(/[^0-9]/g, '') === cleanOptionalPhone)
+  );
+
+  const payload = {
+    orderId: (p && p.order_id) || cleanOrder || (u ? ('REG-' + u.id.replace('usr-', '')) : ''),
+    userId: targetUserId || (u && u.id) || '',
+    phoneNumber: (p && (p.phone_number || p.user_phone_number)) || (u && u.phone_number) || optionalPhone || '',
+    fullName: (p && (p.full_name || p.user_full_name)) || (u && u.full_name) || '',
+    email: (p && (p.email || p.user_email)) || (u && u.email) || '',
+    type: (p && p.type) || 'registration_verification'
+  };
+
   const res = await api('/api/admin/payments/approve', {
     method: 'POST',
-    body: JSON.stringify({ orderId })
+    body: JSON.stringify(payload)
   });
-  if (res.success) {
+
+  if (res && res.success) {
+    // 1. Clean localStorage pending registrations & add to approved cache
     try {
       const localPending = JSON.parse(localStorage.getItem('tatadana_pending_registrations') || '[]');
-      const filtered = localPending.filter(p => p.order_id !== orderId);
+      const filtered = localPending.filter(x => 
+        x.order_id !== payload.orderId && 
+        x.user_id !== payload.userId && 
+        (!payload.phoneNumber || (x.phone_number || '').replace(/[^0-9]/g, '') !== payload.phoneNumber.replace(/[^0-9]/g, ''))
+      );
       localStorage.setItem('tatadana_pending_registrations', JSON.stringify(filtered));
+
+      const approvedCache = JSON.parse(localStorage.getItem('tatadana_approved_registrations') || '[]');
+      if (payload.userId && !approvedCache.includes(payload.userId)) approvedCache.push(payload.userId);
+      const pureDigits = (payload.phoneNumber || '').replace(/[^0-9]/g, '');
+      if (pureDigits && !approvedCache.includes(pureDigits)) approvedCache.push(pureDigits);
+      localStorage.setItem('tatadana_approved_registrations', JSON.stringify(approvedCache));
     } catch (e) {}
+
+    // 2. Optimistically update local state so UI updates immediately
+    if (p) p.status = 'settlement';
+    if (u) {
+      u.whatsapp_verified = true;
+      u.phone_verified = true;
+    }
+
     showToast(res.message || 'Pendaftaran / Pembayaran berhasil disetujui!', 'success');
     await Promise.all([fetchAdminData(), fetchAdminStats()]);
     render();
   } else {
-    showToast(res.message || 'Gagal menyetujui pembayaran', 'error');
+    showToast((res && res.message) || 'Gagal menyetujui pembayaran', 'error');
   }
 };
 
-window.rejectPayment = async function(orderId) {
+window.rejectPayment = async function(orderId, optionalUserId, optionalPhone) {
+  const payments = state.adminPayments || [];
+  const cleanOrder = String(orderId || '').trim();
+  const cleanOptionalUser = String(optionalUserId || '').trim();
+  const cleanOptionalPhone = String(optionalPhone || '').replace(/[^0-9]/g, '');
+
+  let p = payments.find(x => 
+    (cleanOrder && x.order_id === cleanOrder) ||
+    (cleanOrder && x.user_id === cleanOrder) ||
+    (cleanOptionalUser && x.user_id === cleanOptionalUser)
+  );
+
+  const payload = {
+    orderId: (p && p.order_id) || cleanOrder,
+    userId: (p && p.user_id) || cleanOptionalUser,
+    phoneNumber: (p && (p.phone_number || p.user_phone_number)) || optionalPhone || '',
+    reason: 'Ditolak oleh Admin'
+  };
+
   const res = await api('/api/admin/payments/reject', {
     method: 'POST',
-    body: JSON.stringify({ orderId })
+    body: JSON.stringify(payload)
   });
-  if (res.success) {
-    showToast(res.message || 'Pembayaran ditolak.', 'info');
+
+  if (res && res.success) {
+    try {
+      const localPending = JSON.parse(localStorage.getItem('tatadana_pending_registrations') || '[]');
+      const filtered = localPending.filter(x => x.order_id !== payload.orderId && x.user_id !== payload.userId);
+      localStorage.setItem('tatadana_pending_registrations', JSON.stringify(filtered));
+    } catch (e) {}
+    if (p) p.status = 'rejected';
+    showToast(res.message || 'Pembayaran / Pendaftaran telah ditolak.', 'info');
     await Promise.all([fetchAdminData(), fetchAdminStats()]);
     render();
   } else {
-    showToast(res.message || 'Gagal menolak pembayaran', 'error');
+    showToast((res && res.message) || 'Gagal menolak pembayaran', 'error');
   }
 };
 
@@ -5396,12 +5474,22 @@ window.adminVerifyUserWhatsapp = async function(userId) {
     method: 'POST',
     body: JSON.stringify({ userId })
   });
-  if (res.success) {
+  if (res && res.success) {
+    try {
+      const approvedCache = JSON.parse(localStorage.getItem('tatadana_approved_registrations') || '[]');
+      if (userId && !approvedCache.includes(userId)) approvedCache.push(userId);
+      localStorage.setItem('tatadana_approved_registrations', JSON.stringify(approvedCache));
+
+      const localPending = JSON.parse(localStorage.getItem('tatadana_pending_registrations') || '[]');
+      const filtered = localPending.filter(x => x.user_id !== userId);
+      localStorage.setItem('tatadana_pending_registrations', JSON.stringify(filtered));
+    } catch (e) {}
+
     showToast(res.message || 'Nomor WhatsApp berhasil diverifikasi!', 'success');
     await Promise.all([fetchAdminData(), fetchAdminStats()]);
     render();
   } else {
-    showToast(res.message || 'Gagal memverifikasi nomor WhatsApp', 'error');
+    showToast((res && res.message) || 'Gagal memverifikasi nomor WhatsApp', 'error');
   }
 };
 
@@ -6172,6 +6260,26 @@ async function fetchAdminData() {
               categories_count: 5,
               created_at: lp.created_at || new Date().toISOString()
             });
+          }
+        });
+      }
+    } catch (e) {}
+
+    // Apply approved cache to state so verified users stay verified across instances
+    try {
+      const approvedCache = JSON.parse(localStorage.getItem('tatadana_approved_registrations') || '[]');
+      if (Array.isArray(approvedCache) && approvedCache.length > 0) {
+        (state.adminPayments || []).forEach(p => {
+          const pPhone = (p.phone_number || p.user_phone_number || '').replace(/[^0-9]/g, '');
+          if (approvedCache.includes(p.user_id) || approvedCache.includes(p.order_id) || (pPhone && approvedCache.includes(pPhone))) {
+            p.status = 'settlement';
+          }
+        });
+        (state.adminUsers || []).forEach(u => {
+          const uPhone = (u.phone_number || '').replace(/[^0-9]/g, '');
+          if (approvedCache.includes(u.id) || (uPhone && approvedCache.includes(uPhone))) {
+            u.whatsapp_verified = true;
+            u.phone_verified = true;
           }
         });
       }
