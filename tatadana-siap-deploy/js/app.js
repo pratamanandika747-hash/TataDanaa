@@ -262,6 +262,12 @@ function startOtpPolling() {
       if (res && res.success && res.verified) {
         stopOtpPolling();
         state.user = res.user;
+        try {
+          if (res.user && res.user.id) {
+            sessionStorage.setItem('tatadana_user_id', res.user.id);
+            localStorage.setItem('tatadana_user_id', res.user.id);
+          }
+        } catch (e) {}
         showToast('🎉 Selamat! Akun Anda telah disetujui & diverifikasi oleh Super Admin!', 'success');
         await Promise.all([
           fetchWallets(),
@@ -332,9 +338,8 @@ function stopCalendarRealtimeEngines() {
 function navigate(page, updateHash = true) {
   // Strict Security & UX Guard:
   // Non-superadmin users and new users must NEVER be routed to the Super Admin panel.
-  // Always divert non-superadmin users to 'dashboard'.
   if (page === 'admin' && (!state.user || state.user.role !== 'superadmin')) {
-    page = 'dashboard';
+    page = state.user ? 'dashboard' : 'landing';
   }
   state.currentPage = page;
   state.showMobileSidebar = false;
@@ -2641,58 +2646,15 @@ function renderSettingsPage() {
 
 // 7. ADMIN DASHBOARD & APPROVAL PORTAL
 function renderAdminDashboard() {
-  // Case 1: Non-superadmin users attempting to access Admin Panel -> Automatically divert to User Dashboard
+  // Guard: Non-superadmin users and new visitors must NEVER access the Super Admin Panel
+  // User baru / belum login -> salurkan ke Landing Page
+  // User yang telah memiliki akun -> salurkan ke Dashboard
   if (!state.user || state.user.role !== 'superadmin') {
+    const target = state.user ? 'dashboard' : 'landing';
     setTimeout(() => {
-      navigate('dashboard');
+      navigate(target);
     }, 0);
-    return renderDashboardOverview();
-  }
-  }
-
-  // Case 2: Unauthenticated visitor -> Superadmin Verification Gate
-  if (!state.user) {
-    return `
-      <div class="max-w-md mx-auto my-12 bg-white rounded-3xl shadow-xl border border-purple-200 p-8 space-y-6 text-center">
-        <div class="w-16 h-16 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center text-3xl mx-auto shadow-inner">
-          🛡️
-        </div>
-        <div>
-          <h2 class="text-2xl font-black text-gray-900">Akses Terbatas: Superadmin</h2>
-          <p class="text-xs text-gray-500 mt-2">Halaman ini dikhususkan untuk Administrator Sistem TataDana. Masukkan kredensial admin Anda untuk melanjutkan.</p>
-        </div>
-
-        <div class="p-3.5 rounded-xl bg-purple-50 border border-purple-200 text-left text-xs text-purple-900 space-y-1">
-          <div class="font-bold flex items-center gap-1.5">
-            <span>🛡️ Keamanan Administrator:</span>
-            <span>Akses Terbatas</span>
-          </div>
-          <div class="text-[11px] text-purple-700">
-            Halaman ini hanya dapat diakses oleh Super Admin yang sah. Silakan masukkan kredensial admin Anda untuk membuka panel kendali.
-          </div>
-        </div>
-
-        <form onsubmit="handleDirectAdminLogin(event)" class="space-y-4 text-left">
-          <div>
-            <label class="block text-xs font-bold text-gray-700 mb-1">Email / Identifier Admin</label>
-            <input id="admin-gate-email" type="text" placeholder="@nandikapratama" class="w-full px-4 py-2.5 text-xs border border-gray-300 rounded-xl focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all">
-          </div>
-          <div>
-            <label class="block text-xs font-bold text-gray-700 mb-1">Password Admin</label>
-            <input id="admin-gate-password" type="password" placeholder="••••••••" class="w-full px-4 py-2.5 text-xs border border-gray-300 rounded-xl focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all">
-          </div>
-          <button type="submit" class="w-full py-3 rounded-xl text-xs font-bold bg-purple-700 hover:bg-purple-800 text-white shadow-lg shadow-purple-600/30 transition-all cursor-pointer">
-            Verifikasi & Buka Panel Admin
-          </button>
-        </form>
-
-        <div class="pt-2">
-          <button onclick="navigate('dashboard')" class="text-xs text-gray-500 hover:text-gray-800 font-semibold">
-            ← Kembali ke Dashboard Pengguna
-          </button>
-        </div>
-      </div>
-    `;
+    return state.user ? renderDashboardOverview() : renderLandingPage();
   }
 
   const users = state.adminUsers || [];
@@ -5200,6 +5162,12 @@ window.checkVerificationStatus = async function() {
     if (res && res.success && res.verified) {
       stopOtpPolling();
       state.user = res.user;
+      try {
+        if (res.user && res.user.id) {
+          sessionStorage.setItem('tatadana_user_id', res.user.id);
+          localStorage.setItem('tatadana_user_id', res.user.id);
+        }
+      } catch (e) {}
       showToast('🎉 Selamat! Akun Anda telah disetujui & aktif oleh Super Admin.', 'success');
       await Promise.all([
         fetchWallets(),
@@ -6373,7 +6341,7 @@ function render() {
 
   // Strict Safety Guard: A non-superadmin user must NEVER see the 'admin' screen
   if (state.currentPage === 'admin' && (!state.user || state.user.role !== 'superadmin')) {
-    state.currentPage = 'dashboard';
+    state.currentPage = state.user ? 'dashboard' : 'landing';
   }
 
   switch (state.currentPage) {
@@ -6426,6 +6394,7 @@ async function init() {
     console.warn('Initial auth check warning:', err);
   }
 
+  const isLoggedIn = Boolean(state.user && state.user.id);
   const isSuperAdmin = Boolean(state.user && state.user.role === 'superadmin');
 
   // Determine starting page on page load / refresh
@@ -6439,37 +6408,36 @@ async function init() {
   let candidatePage = validPages.includes(rawHash) ? rawHash : (validPages.includes(storedPage) ? storedPage : null);
 
   // Security & Routing Guard:
-  // If stored page or hash requested is 'admin', but user is NOT Super Admin:
-  // Immediately purge 'admin' from storage and force to 'dashboard'
+  // Non-superadmin users and unauthenticated users must NEVER have candidatePage as 'admin'
   if (candidatePage === 'admin' && !isSuperAdmin) {
     try {
-      if (sessionStorage.getItem('tatadana_page') === 'admin') sessionStorage.setItem('tatadana_page', 'dashboard');
-      if (localStorage.getItem('tatadana_page') === 'admin') localStorage.setItem('tatadana_page', 'dashboard');
+      if (sessionStorage.getItem('tatadana_page') === 'admin') sessionStorage.setItem('tatadana_page', isLoggedIn ? 'dashboard' : 'landing');
+      if (localStorage.getItem('tatadana_page') === 'admin') localStorage.setItem('tatadana_page', isLoggedIn ? 'dashboard' : 'landing');
     } catch (e) {}
-    candidatePage = 'dashboard';
+    candidatePage = isLoggedIn ? 'dashboard' : 'landing';
   }
 
-  // Routing Logic:
-  // 1. Explicit auth pages (login, register, otp)
-  if (candidatePage && ['login', 'register', 'otp'].includes(candidatePage)) {
-    state.currentPage = candidatePage;
+  // 1. KASUS USER BARU / BELUM LOGIN (Unauthenticated / Guest / New Visitor):
+  // Jangan dilanjutkan ke tampilan super admin, tetapi salurkan ke tampilan LANDING PAGE!
+  if (!isLoggedIn) {
+    if (candidatePage && ['login', 'register', 'otp'].includes(candidatePage)) {
+      state.currentPage = candidatePage;
+    } else {
+      state.currentPage = 'landing';
+    }
   }
-  // 2. Explicit landing
-  else if (candidatePage === 'landing') {
-    state.currentPage = 'landing';
-  }
-  // 3. Admin page (only for superadmin)
-  else if (candidatePage === 'admin' && isSuperAdmin) {
-    state.currentPage = 'admin';
-  }
-  // 4. Any valid app page
-  else if (candidatePage && validPages.includes(candidatePage) && candidatePage !== 'admin') {
-    state.currentPage = candidatePage;
-  }
-  // 5. Default entry for new user or general visitor:
-  // Route directly to dashboard!
+  // 2. KASUS USER YANG TELAH MEMILIKI AKUN & SUDAH LOGIN (Authenticated User):
+  // Salurkan ke tampilan DASHBOARD!
   else {
-    state.currentPage = isSuperAdmin ? 'admin' : 'dashboard';
+    if (candidatePage && ['login', 'register'].includes(candidatePage)) {
+      state.currentPage = isSuperAdmin ? 'admin' : 'dashboard';
+    } else if (candidatePage === 'admin' && isSuperAdmin) {
+      state.currentPage = 'admin';
+    } else if (candidatePage && validPages.includes(candidatePage) && candidatePage !== 'admin') {
+      state.currentPage = candidatePage;
+    } else {
+      state.currentPage = isSuperAdmin ? 'admin' : 'dashboard';
+    }
   }
 
   try {

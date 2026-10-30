@@ -1070,14 +1070,18 @@ async function handleRequest(req, res) {
 
     // 1. Auth APIs
     if (pathname === '/api/auth/me') {
-      const user = db.profiles.find(u => u.id === activeUserId) || db.profiles.find(u => u.role === 'user') || db.profiles[0];
-      return sendJson(res, 200, { success: true, user });
+      if (headerUserId) {
+        const user = db.profiles.find(u => u.id === headerUserId);
+        if (user) {
+          activeUserId = user.id;
+          return sendJson(res, 200, { success: true, user });
+        }
+      }
+      return sendJson(res, 200, { success: false, user: null, message: 'Belum login' });
     }
 
     if (pathname === '/api/auth/logout' && method === 'POST') {
-      const regularUser = db.profiles.find(u => u.role === 'user') || db.profiles[0];
-      activeUserId = regularUser ? regularUser.id : 'usr-new-001';
-      return sendJson(res, 200, { success: true, message: 'Berhasil keluar dari akun.', user: regularUser });
+      return sendJson(res, 200, { success: true, message: 'Berhasil keluar dari akun.', user: null });
     }
 
     if (pathname === '/api/auth/switch-user' && method === 'POST') {
