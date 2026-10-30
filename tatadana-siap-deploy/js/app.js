@@ -330,6 +330,12 @@ function stopCalendarRealtimeEngines() {
 }
 
 function navigate(page, updateHash = true) {
+  // Strict Security & UX Guard:
+  // Non-superadmin users and new users must NEVER be routed to the Super Admin panel.
+  // Always divert non-superadmin users to 'dashboard'.
+  if (page === 'admin' && (!state.user || state.user.role !== 'superadmin')) {
+    page = 'dashboard';
+  }
   state.currentPage = page;
   state.showMobileSidebar = false;
   if (updateHash) {
@@ -2635,43 +2641,13 @@ function renderSettingsPage() {
 
 // 7. ADMIN DASHBOARD & APPROVAL PORTAL
 function renderAdminDashboard() {
-  // Case 1: Regular users attempting to access Admin Panel -> Strict 403 Forbidden
-  if (state.user && state.user.role !== 'superadmin') {
-    return `
-      <div class="max-w-md mx-auto my-12 bg-white rounded-3xl shadow-2xl border border-rose-200 p-8 space-y-6 text-center animate-fade-in">
-        <div class="w-20 h-20 rounded-3xl bg-rose-50 border border-rose-200 text-rose-600 flex items-center justify-center text-4xl mx-auto shadow-inner">
-          🚫
-        </div>
-        <div>
-          <span class="px-3 py-1 rounded-full text-[11px] font-black bg-rose-100 text-rose-700 uppercase tracking-wider">
-            403 • Akses Ditolak
-          </span>
-          <h2 class="text-2xl font-black text-gray-900 mt-2">Bukan Akun Superadmin</h2>
-          <p class="text-xs text-gray-600 mt-2 leading-relaxed">
-            Akun Anda (<b>${state.user.full_name}</b>) terdaftar sebagai pengguna standar TataDana dan <b>tidak memiliki izin</b> untuk membuka Pusat Kendali Superadmin.
-          </p>
-        </div>
-
-        <div class="p-4 rounded-2xl bg-gray-50 border border-gray-200 text-left text-xs text-gray-700 space-y-1.5">
-          <div class="font-bold text-gray-900 flex items-center gap-1.5">
-            <span>🛡️ Hak Akses Khusus:</span>
-            <span>Superadmin Resmi</span>
-          </div>
-          <p class="text-[11px] text-gray-500 leading-normal">
-            Panel ini hanya diperuntukkan bagi Superadmin resmi (<b>@nandikapratama</b>) untuk manajemen pengguna, persetujuan pembayaran PRO, dan audit sistem.
-          </p>
-        </div>
-
-        <div class="space-y-2.5 pt-2">
-          <button onclick="navigate('dashboard')" class="w-full py-3.5 rounded-xl text-xs font-bold bg-orange-600 hover:bg-orange-700 text-white shadow-lg shadow-orange-500/30 transition-all flex items-center justify-center gap-2">
-            <span>🏠</span> Kembali ke Dashboard Saya
-          </button>
-          <button onclick="state.user = null; navigate('login')" class="w-full py-2.5 rounded-xl text-xs font-semibold text-gray-600 hover:text-gray-900 border border-gray-200 hover:bg-gray-50 transition-colors">
-            Ganti Akun / Masuk sebagai Superadmin
-          </button>
-        </div>
-      </div>
-    `;
+  // Case 1: Non-superadmin users attempting to access Admin Panel -> Automatically divert to User Dashboard
+  if (!state.user || state.user.role !== 'superadmin') {
+    setTimeout(() => {
+      navigate('dashboard');
+    }, 0);
+    return renderDashboardOverview();
+  }
   }
 
   // Case 2: Unauthenticated visitor -> Superadmin Verification Gate
@@ -6395,6 +6371,11 @@ function render() {
   const app = document.getElementById('app') || document.getElementById('root') || document.getElementById('app-root');
   if (!app) return;
 
+  // Strict Safety Guard: A non-superadmin user must NEVER see the 'admin' screen
+  if (state.currentPage === 'admin' && (!state.user || state.user.role !== 'superadmin')) {
+    state.currentPage = 'dashboard';
+  }
+
   switch (state.currentPage) {
     case 'landing':
       app.innerHTML = renderLandingPage();
@@ -6445,6 +6426,8 @@ async function init() {
     console.warn('Initial auth check warning:', err);
   }
 
+  const isSuperAdmin = Boolean(state.user && state.user.role === 'superadmin');
+
   // Determine starting page on page load / refresh
   const validPages = ['landing', 'login', 'register', 'otp', 'dashboard', 'laporan', 'budget', 'wallet', 'settings', 'admin', 'kalender'];
   const rawHash = (window.location.hash || '').replace('#', '').trim();
@@ -6453,25 +6436,40 @@ async function init() {
     storedPage = sessionStorage.getItem('tatadana_page') || localStorage.getItem('tatadana_page') || '';
   } catch (e) {}
 
-  const candidatePage = validPages.includes(rawHash) ? rawHash : (validPages.includes(storedPage) ? storedPage : null);
+  let candidatePage = validPages.includes(rawHash) ? rawHash : (validPages.includes(storedPage) ? storedPage : null);
 
-  // Default routing:
-  // When a user opens via link (or candidatePage is landing), route unconditionally to landing page, NOT admin!
-  if (candidatePage === 'landing' || (!rawHash && (!storedPage || storedPage === 'landing'))) {
-    state.currentPage = 'landing';
-  } else if (candidatePage && ['login', 'register', 'otp'].includes(candidatePage)) {
+  // Security & Routing Guard:
+  // If stored page or hash requested is 'admin', but user is NOT Super Admin:
+  // Immediately purge 'admin' from storage and force to 'dashboard'
+  if (candidatePage === 'admin' && !isSuperAdmin) {
+    try {
+      if (sessionStorage.getItem('tatadana_page') === 'admin') sessionStorage.setItem('tatadana_page', 'dashboard');
+      if (localStorage.getItem('tatadana_page') === 'admin') localStorage.setItem('tatadana_page', 'dashboard');
+    } catch (e) {}
+    candidatePage = 'dashboard';
+  }
+
+  // Routing Logic:
+  // 1. Explicit auth pages (login, register, otp)
+  if (candidatePage && ['login', 'register', 'otp'].includes(candidatePage)) {
     state.currentPage = candidatePage;
-  } else if (state.user) {
-    if (candidatePage === 'admin') {
-      state.currentPage = state.user.role === 'superadmin' ? 'admin' : 'dashboard';
-    } else if (candidatePage && validPages.includes(candidatePage)) {
-      state.currentPage = candidatePage;
-    } else {
-      state.currentPage = state.user.role === 'superadmin' ? 'admin' : 'dashboard';
-    }
-  } else {
-    // Visitor not logged in trying to access protected pages -> landing
+  }
+  // 2. Explicit landing
+  else if (candidatePage === 'landing') {
     state.currentPage = 'landing';
+  }
+  // 3. Admin page (only for superadmin)
+  else if (candidatePage === 'admin' && isSuperAdmin) {
+    state.currentPage = 'admin';
+  }
+  // 4. Any valid app page
+  else if (candidatePage && validPages.includes(candidatePage) && candidatePage !== 'admin') {
+    state.currentPage = candidatePage;
+  }
+  // 5. Default entry for new user or general visitor:
+  // Route directly to dashboard!
+  else {
+    state.currentPage = isSuperAdmin ? 'admin' : 'dashboard';
   }
 
   try {

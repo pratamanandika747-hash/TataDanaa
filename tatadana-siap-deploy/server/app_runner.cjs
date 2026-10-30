@@ -487,6 +487,7 @@ function getFilteredUserTransactions(userId, query = {}) {
 const db = {
   processedUpdates: new Set(),
   profiles: [
+    { id: 'usr-new-001', email: 'pengguna@tatadana.id', phone_number: '+6281234567890', phone_verified: true, whatsapp_verified: true, full_name: 'Pengguna TataDana', role: 'user', plan_tier: 'starter', password: 'user123', avatar_url: null },
     { id: 'usr-admin-001', email: '@nandikapratama', phone_number: '+628111222333', phone_verified: true, whatsapp_verified: true, full_name: 'Nandika Pratama (Super Admin)', role: 'superadmin', plan_tier: 'pro', password: 'nandika@1234', avatar_url: null }
   ],
   wallets: [],
@@ -572,8 +573,53 @@ if (!db.profiles.some(u => u.role === 'superadmin')) {
     avatar_url: null
   });
 }
+if (!db.profiles.some(u => u.id === 'usr-new-001' || (u.role === 'user' && u.email === 'pengguna@tatadana.id'))) {
+  db.profiles.unshift({
+    id: 'usr-new-001',
+    email: 'pengguna@tatadana.id',
+    phone_number: '+6281234567890',
+    phone_verified: true,
+    whatsapp_verified: true,
+    full_name: 'Pengguna TataDana',
+    role: 'user',
+    plan_tier: 'starter',
+    password: 'user123',
+    avatar_url: null,
+    created_at: new Date().toISOString()
+  });
+}
 
 loadDatabaseFromFile();
+
+if (!db.profiles.some(u => u.role === 'superadmin')) {
+  db.profiles.push({
+    id: 'usr-admin-001',
+    email: '@nandikapratama',
+    phone_number: '+628111222333',
+    phone_verified: true,
+    whatsapp_verified: true,
+    full_name: 'Nandika Pratama (Super Admin)',
+    role: 'superadmin',
+    plan_tier: 'pro',
+    password: 'nandika@1234',
+    avatar_url: null
+  });
+}
+if (!db.profiles.some(u => u.id === 'usr-new-001' || (u.role === 'user' && u.email === 'pengguna@tatadana.id'))) {
+  db.profiles.unshift({
+    id: 'usr-new-001',
+    email: 'pengguna@tatadana.id',
+    phone_number: '+6281234567890',
+    phone_verified: true,
+    whatsapp_verified: true,
+    full_name: 'Pengguna TataDana',
+    role: 'user',
+    plan_tier: 'starter',
+    password: 'user123',
+    avatar_url: null,
+    created_at: new Date().toISOString()
+  });
+}
 
 // Memory leak guards: prune cache sets and arrays when reaching thresholds
 function recordProcessedUpdate(updateId) {
@@ -612,7 +658,7 @@ function matchIndonesianPhone(phoneA, phoneB) {
   return Boolean(normA && normB && normA.length >= 7 && normA === normB);
 }
 
-let activeUserId = 'usr-admin-001';
+let activeUserId = 'usr-new-001';
 
 // -------------------------------------------------------------
 // HTTP SERVER & API ROUTES
@@ -1024,14 +1070,14 @@ async function handleRequest(req, res) {
 
     // 1. Auth APIs
     if (pathname === '/api/auth/me') {
-      const user = db.profiles.find(u => u.id === activeUserId) || db.profiles[0];
+      const user = db.profiles.find(u => u.id === activeUserId) || db.profiles.find(u => u.role === 'user') || db.profiles[0];
       return sendJson(res, 200, { success: true, user });
     }
 
     if (pathname === '/api/auth/logout' && method === 'POST') {
-      const superAdmin = db.profiles.find(u => u.role === 'superadmin') || db.profiles[0];
-      activeUserId = superAdmin ? superAdmin.id : 'usr-admin-001';
-      return sendJson(res, 200, { success: true, message: 'Berhasil keluar dari akun.', user: superAdmin });
+      const regularUser = db.profiles.find(u => u.role === 'user') || db.profiles[0];
+      activeUserId = regularUser ? regularUser.id : 'usr-new-001';
+      return sendJson(res, 200, { success: true, message: 'Berhasil keluar dari akun.', user: regularUser });
     }
 
     if (pathname === '/api/auth/switch-user' && method === 'POST') {
@@ -1040,7 +1086,24 @@ async function handleRequest(req, res) {
         const adminUser = db.profiles.find(u => u.role === 'superadmin') || db.profiles[0];
         activeUserId = adminUser.id;
       } else {
-        const regularUser = db.profiles.find(u => u.role === 'user') || db.profiles[0];
+        let regularUser = db.profiles.find(u => u.role === 'user');
+        if (!regularUser) {
+          regularUser = {
+            id: 'usr-new-001',
+            email: 'pengguna@tatadana.id',
+            phone_number: '+6281234567890',
+            phone_verified: true,
+            whatsapp_verified: true,
+            full_name: 'Pengguna TataDana',
+            role: 'user',
+            plan_tier: 'starter',
+            password: 'user123',
+            avatar_url: null,
+            created_at: new Date().toISOString()
+          };
+          db.profiles.push(regularUser);
+          saveDatabaseToFile();
+        }
         activeUserId = regularUser.id;
       }
       const user = db.profiles.find(u => u.id === activeUserId) || db.profiles[0];
@@ -2907,12 +2970,12 @@ function startTelegramPoller(token) {
               }
             }
           } else if (data.error_code === 409) {
-            // Webhook is active: delete it and resume polling
+            // Webhook is active: delete it and resume polling with safe backoff
             console.log('⚠️ Webhook conflict (409) detected. Clearing Telegram webhook...');
-            https.get(`https://api.telegram.org/bot${currentBotToken}/deleteWebhook`, () => {
-              setTimeout(poll, 1000);
+            https.get(`https://api.telegram.org/bot${currentBotToken}/deleteWebhook?drop_pending_updates=true`, () => {
+              setTimeout(poll, 8000);
             }).on('error', () => {
-              setTimeout(poll, 2000);
+              setTimeout(poll, 10000);
             });
             return;
           }

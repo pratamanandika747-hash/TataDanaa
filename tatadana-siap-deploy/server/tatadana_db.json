@@ -1,0 +1,791 @@
+{
+  "profiles": [
+    {
+      "id": "usr-new-001",
+      "email": "pengguna@tatadana.id",
+      "phone_number": "+6281234567890",
+      "phone_verified": true,
+      "whatsapp_verified": true,
+      "full_name": "Pengguna TataDana",
+      "role": "user",
+      "plan_tier": "starter",
+      "password": "user123",
+      "avatar_url": null,
+      "created_at": "2026-10-30T12:00:00.000Z"
+    },
+    {
+      "id": "usr-admin-001",
+      "email": "@nandikapratama",
+      "phone_number": "+628111222333",
+      "phone_verified": true,
+      "whatsapp_verified": true,
+      "full_name": "Nandika Pratama (Super Admin)",
+      "role": "superadmin",
+      "plan_tier": "pro",
+      "password": "nandika@1234",
+      "avatar_url": null
+    },
+    {
+      "id": "usr-1792374216387",
+      "email": "ahmad@gmail.com",
+      "phone_number": "081299887766",
+      "full_name": "Ahmad Santoso",
+      "password": "password123",
+      "role": "user",
+      "plan_tier": "starter",
+      "phone_verified": false,
+      "whatsapp_verified": false,
+      "created_at": "2026-10-19T01:43:36.387Z"
+    },
+    {
+      "id": "usr-1792374888259",
+      "email": "pengguna_baru_bersih@tatadana.com",
+      "phone_number": "+628123456789",
+      "full_name": "Budi Santoso Bersih",
+      "password": "password123",
+      "role": "user",
+      "plan_tier": "starter",
+      "phone_verified": false,
+      "whatsapp_verified": false,
+      "created_at": "2026-10-19T01:54:48.259Z"
+    },
+    {
+      "id": "usr-1792375024281",
+      "email": "test_user_verif@tatadana.com",
+      "phone_number": "+6287711223344",
+      "full_name": "Test User Verifikasi Admin",
+      "password": "password123",
+      "role": "user",
+      "plan_tier": "starter",
+      "phone_verified": false,
+      "whatsapp_verified": false,
+      "created_at": "2026-10-19T01:57:04.281Z"
+    },
+    {
+      "id": "usr-1792377607019",
+      "email": "test_approval_flow@tatadana.com",
+      "phone_number": "+6285512345678",
+      "full_name": "Rian Perdana Approval",
+      "password": "password123",
+      "role": "user",
+      "plan_tier": "starter",
+      "phone_verified": true,
+      "whatsapp_verified": true,
+      "created_at": "2026-10-19T02:40:07.019Z"
+    },
+    {
+      "id": "usr-1792377607054",
+      "email": "test_approval_user2@tatadana.com",
+      "phone_number": "+6285598765432",
+      "full_name": "Siti Aminah Approval",
+      "password": "password123",
+      "role": "user",
+      "plan_tier": "starter",
+      "phone_verified": true,
+      "whatsapp_verified": true,
+      "created_at": "2026-10-19T02:40:07.054Z"
+    },
+    {
+      "id": "usr-1792377607081",
+      "email": "test_approval_user3@tatadana.com",
+      "phone_number": "+6285511223344",
+      "full_name": "Dewi Lestari Phone Only",
+      "password": "password123",
+      "role": "user",
+      "plan_tier": "starter",
+      "phone_verified": true,
+      "whatsapp_verified": true,
+      "created_at": "2026-10-19T02:40:07.081Z"
+    },
+    {
+      "id": "usr-1792380725405",
+      "email": "budi_login_test@gmail.com",
+      "phone_number": "081298765432",
+      "full_name": "Budi Login Test",
+      "password": "password123",
+      "role": "user",
+      "plan_tier": "starter",
+      "phone_verified": true,
+      "whatsapp_verified": true,
+      "created_at": "2026-10-19T03:32:05.405Z"
+    },
+    {
+      "id": "usr-1792381280462",
+      "email": "user_280427@tatadana.id",
+      "phone_number": "0812280427",
+      "full_name": "User Test 280427",
+      "password": "password123",
+      "role": "user",
+      "plan_tier": "starter",
+      "phone_verified": true,
+      "whatsapp_verified": true,
+      "created_at": "2026-10-19T03:41:20.477Z"
+    }
+  ],
+  "wallets": [
+    {
+      "id": "w-usr-1792374216387-1",
+      "user_id": "usr-1792374216387",
+      "name": "Dompet Utama",
+      "wallet_type": "cash",
+      "balance": 0,
+      "is_default_telegram": true,
+      "color": "#FF5B00",
+      "icon": "💵"
+    },
+    {
+      "id": "w-usr-admin-001-1",
+      "user_id": "usr-admin-001",
+      "name": "Dompet Utama",
+      "wallet_type": "cash",
+      "balance": 0,
+      "is_default_telegram": true,
+      "color": "#FF5B00",
+      "icon": "💵"
+    },
+    {
+      "id": "w-usr-1792374888259-1",
+      "user_id": "usr-1792374888259",
+      "name": "Dompet Utama",
+      "wallet_type": "cash",
+      "balance": 0,
+      "is_default_telegram": true,
+      "color": "#FF5B00",
+      "icon": "💵"
+    },
+    {
+      "id": "w-usr-1792375024281-1",
+      "user_id": "usr-1792375024281",
+      "name": "Dompet Utama",
+      "wallet_type": "cash",
+      "balance": 0,
+      "is_default_telegram": true,
+      "color": "#FF5B00",
+      "icon": "💵"
+    },
+    {
+      "id": "w-usr-1792377607019-1",
+      "user_id": "usr-1792377607019",
+      "name": "Dompet Utama",
+      "wallet_type": "cash",
+      "balance": 0,
+      "is_default_telegram": true,
+      "color": "#FF5B00",
+      "icon": "💵"
+    },
+    {
+      "id": "w-usr-1792377607054-1",
+      "user_id": "usr-1792377607054",
+      "name": "Dompet Utama",
+      "wallet_type": "cash",
+      "balance": 0,
+      "is_default_telegram": true,
+      "color": "#FF5B00",
+      "icon": "💵"
+    },
+    {
+      "id": "w-usr-1792377607081-1",
+      "user_id": "usr-1792377607081",
+      "name": "Dompet Utama",
+      "wallet_type": "cash",
+      "balance": 0,
+      "is_default_telegram": true,
+      "color": "#FF5B00",
+      "icon": "💵"
+    },
+    {
+      "id": "w-usr-1792380725405-1",
+      "user_id": "usr-1792380725405",
+      "name": "Dompet Utama",
+      "wallet_type": "cash",
+      "balance": 0,
+      "is_default_telegram": true,
+      "color": "#FF5B00",
+      "icon": "💵"
+    },
+    {
+      "id": "w-usr-1792381280462-1",
+      "user_id": "usr-1792381280462",
+      "name": "Dompet Utama",
+      "wallet_type": "cash",
+      "balance": 0,
+      "is_default_telegram": true,
+      "color": "#FF5B00",
+      "icon": "💵"
+    },
+    {
+      "id": "w-usr-new-001-1",
+      "user_id": "usr-new-001",
+      "name": "Dompet Utama",
+      "wallet_type": "cash",
+      "balance": 0,
+      "is_default_telegram": true,
+      "color": "#FF5B00",
+      "icon": "💵"
+    }
+  ],
+  "categories": [
+    {
+      "id": "cat-01",
+      "user_id": "default",
+      "name": "Makanan & Minuman",
+      "type": "expense",
+      "icon": "🍜",
+      "color": "#F97316"
+    },
+    {
+      "id": "cat-02",
+      "user_id": "default",
+      "name": "Transportasi",
+      "type": "expense",
+      "icon": "🚗",
+      "color": "#3B82F6"
+    },
+    {
+      "id": "cat-03",
+      "user_id": "default",
+      "name": "Tagihan & Utilitas",
+      "type": "expense",
+      "icon": "🏠",
+      "color": "#8B5CF6"
+    },
+    {
+      "id": "cat-04",
+      "user_id": "default",
+      "name": "Belanja Kebutuhan",
+      "type": "expense",
+      "icon": "👕",
+      "color": "#EC4899"
+    },
+    {
+      "id": "cat-05",
+      "user_id": "default",
+      "name": "Gaji & Pendapatan",
+      "type": "income",
+      "icon": "💰",
+      "color": "#059669"
+    },
+    {
+      "id": "cat-usr-1792374216387-01",
+      "user_id": "usr-1792374216387",
+      "name": "Makanan & Minuman",
+      "type": "expense",
+      "icon": "🍜",
+      "color": "#F97316"
+    },
+    {
+      "id": "cat-usr-1792374216387-02",
+      "user_id": "usr-1792374216387",
+      "name": "Transportasi",
+      "type": "expense",
+      "icon": "🚗",
+      "color": "#3B82F6"
+    },
+    {
+      "id": "cat-usr-1792374216387-03",
+      "user_id": "usr-1792374216387",
+      "name": "Tagihan & Utilitas",
+      "type": "expense",
+      "icon": "🏠",
+      "color": "#8B5CF6"
+    },
+    {
+      "id": "cat-usr-1792374216387-04",
+      "user_id": "usr-1792374216387",
+      "name": "Belanja Kebutuhan",
+      "type": "expense",
+      "icon": "👕",
+      "color": "#EC4899"
+    },
+    {
+      "id": "cat-usr-1792374216387-05",
+      "user_id": "usr-1792374216387",
+      "name": "Gaji & Pendapatan",
+      "type": "income",
+      "icon": "💰",
+      "color": "#059669"
+    },
+    {
+      "id": "cat-usr-1792374888259-01",
+      "user_id": "usr-1792374888259",
+      "name": "Makanan & Minuman",
+      "type": "expense",
+      "icon": "🍜",
+      "color": "#F97316"
+    },
+    {
+      "id": "cat-usr-1792374888259-02",
+      "user_id": "usr-1792374888259",
+      "name": "Transportasi",
+      "type": "expense",
+      "icon": "🚗",
+      "color": "#3B82F6"
+    },
+    {
+      "id": "cat-usr-1792374888259-03",
+      "user_id": "usr-1792374888259",
+      "name": "Tagihan & Utilitas",
+      "type": "expense",
+      "icon": "🏠",
+      "color": "#8B5CF6"
+    },
+    {
+      "id": "cat-usr-1792374888259-04",
+      "user_id": "usr-1792374888259",
+      "name": "Belanja Kebutuhan",
+      "type": "expense",
+      "icon": "👕",
+      "color": "#EC4899"
+    },
+    {
+      "id": "cat-usr-1792374888259-05",
+      "user_id": "usr-1792374888259",
+      "name": "Gaji & Pendapatan",
+      "type": "income",
+      "icon": "💰",
+      "color": "#059669"
+    },
+    {
+      "id": "cat-usr-1792375024281-01",
+      "user_id": "usr-1792375024281",
+      "name": "Makanan & Minuman",
+      "type": "expense",
+      "icon": "🍜",
+      "color": "#F97316"
+    },
+    {
+      "id": "cat-usr-1792375024281-02",
+      "user_id": "usr-1792375024281",
+      "name": "Transportasi",
+      "type": "expense",
+      "icon": "🚗",
+      "color": "#3B82F6"
+    },
+    {
+      "id": "cat-usr-1792375024281-03",
+      "user_id": "usr-1792375024281",
+      "name": "Tagihan & Utilitas",
+      "type": "expense",
+      "icon": "🏠",
+      "color": "#8B5CF6"
+    },
+    {
+      "id": "cat-usr-1792375024281-04",
+      "user_id": "usr-1792375024281",
+      "name": "Belanja Kebutuhan",
+      "type": "expense",
+      "icon": "👕",
+      "color": "#EC4899"
+    },
+    {
+      "id": "cat-usr-1792375024281-05",
+      "user_id": "usr-1792375024281",
+      "name": "Gaji & Pendapatan",
+      "type": "income",
+      "icon": "💰",
+      "color": "#059669"
+    },
+    {
+      "id": "cat-usr-1792377607019-01",
+      "user_id": "usr-1792377607019",
+      "name": "Makanan & Minuman",
+      "type": "expense",
+      "icon": "🍜",
+      "color": "#F97316"
+    },
+    {
+      "id": "cat-usr-1792377607019-02",
+      "user_id": "usr-1792377607019",
+      "name": "Transportasi",
+      "type": "expense",
+      "icon": "🚗",
+      "color": "#3B82F6"
+    },
+    {
+      "id": "cat-usr-1792377607019-03",
+      "user_id": "usr-1792377607019",
+      "name": "Tagihan & Utilitas",
+      "type": "expense",
+      "icon": "🏠",
+      "color": "#8B5CF6"
+    },
+    {
+      "id": "cat-usr-1792377607019-04",
+      "user_id": "usr-1792377607019",
+      "name": "Belanja Kebutuhan",
+      "type": "expense",
+      "icon": "👕",
+      "color": "#EC4899"
+    },
+    {
+      "id": "cat-usr-1792377607019-05",
+      "user_id": "usr-1792377607019",
+      "name": "Gaji & Pendapatan",
+      "type": "income",
+      "icon": "💰",
+      "color": "#059669"
+    },
+    {
+      "id": "cat-usr-1792377607054-01",
+      "user_id": "usr-1792377607054",
+      "name": "Makanan & Minuman",
+      "type": "expense",
+      "icon": "🍜",
+      "color": "#F97316"
+    },
+    {
+      "id": "cat-usr-1792377607054-02",
+      "user_id": "usr-1792377607054",
+      "name": "Transportasi",
+      "type": "expense",
+      "icon": "🚗",
+      "color": "#3B82F6"
+    },
+    {
+      "id": "cat-usr-1792377607054-03",
+      "user_id": "usr-1792377607054",
+      "name": "Tagihan & Utilitas",
+      "type": "expense",
+      "icon": "🏠",
+      "color": "#8B5CF6"
+    },
+    {
+      "id": "cat-usr-1792377607054-04",
+      "user_id": "usr-1792377607054",
+      "name": "Belanja Kebutuhan",
+      "type": "expense",
+      "icon": "👕",
+      "color": "#EC4899"
+    },
+    {
+      "id": "cat-usr-1792377607054-05",
+      "user_id": "usr-1792377607054",
+      "name": "Gaji & Pendapatan",
+      "type": "income",
+      "icon": "💰",
+      "color": "#059669"
+    },
+    {
+      "id": "cat-usr-1792377607081-01",
+      "user_id": "usr-1792377607081",
+      "name": "Makanan & Minuman",
+      "type": "expense",
+      "icon": "🍜",
+      "color": "#F97316"
+    },
+    {
+      "id": "cat-usr-1792377607081-02",
+      "user_id": "usr-1792377607081",
+      "name": "Transportasi",
+      "type": "expense",
+      "icon": "🚗",
+      "color": "#3B82F6"
+    },
+    {
+      "id": "cat-usr-1792377607081-03",
+      "user_id": "usr-1792377607081",
+      "name": "Tagihan & Utilitas",
+      "type": "expense",
+      "icon": "🏠",
+      "color": "#8B5CF6"
+    },
+    {
+      "id": "cat-usr-1792377607081-04",
+      "user_id": "usr-1792377607081",
+      "name": "Belanja Kebutuhan",
+      "type": "expense",
+      "icon": "👕",
+      "color": "#EC4899"
+    },
+    {
+      "id": "cat-usr-1792377607081-05",
+      "user_id": "usr-1792377607081",
+      "name": "Gaji & Pendapatan",
+      "type": "income",
+      "icon": "💰",
+      "color": "#059669"
+    },
+    {
+      "id": "cat-usr-1792380725405-01",
+      "user_id": "usr-1792380725405",
+      "name": "Makanan & Minuman",
+      "type": "expense",
+      "icon": "🍜",
+      "color": "#F97316"
+    },
+    {
+      "id": "cat-usr-1792380725405-02",
+      "user_id": "usr-1792380725405",
+      "name": "Transportasi",
+      "type": "expense",
+      "icon": "🚗",
+      "color": "#3B82F6"
+    },
+    {
+      "id": "cat-usr-1792380725405-03",
+      "user_id": "usr-1792380725405",
+      "name": "Tagihan & Utilitas",
+      "type": "expense",
+      "icon": "🏠",
+      "color": "#8B5CF6"
+    },
+    {
+      "id": "cat-usr-1792380725405-04",
+      "user_id": "usr-1792380725405",
+      "name": "Belanja Kebutuhan",
+      "type": "expense",
+      "icon": "👕",
+      "color": "#EC4899"
+    },
+    {
+      "id": "cat-usr-1792380725405-05",
+      "user_id": "usr-1792380725405",
+      "name": "Gaji & Pendapatan",
+      "type": "income",
+      "icon": "💰",
+      "color": "#059669"
+    },
+    {
+      "id": "cat-usr-1792381280462-01",
+      "user_id": "usr-1792381280462",
+      "name": "Makanan & Minuman",
+      "type": "expense",
+      "icon": "🍜",
+      "color": "#F97316"
+    },
+    {
+      "id": "cat-usr-1792381280462-02",
+      "user_id": "usr-1792381280462",
+      "name": "Transportasi",
+      "type": "expense",
+      "icon": "🚗",
+      "color": "#3B82F6"
+    },
+    {
+      "id": "cat-usr-1792381280462-03",
+      "user_id": "usr-1792381280462",
+      "name": "Tagihan & Utilitas",
+      "type": "expense",
+      "icon": "🏠",
+      "color": "#8B5CF6"
+    },
+    {
+      "id": "cat-usr-1792381280462-04",
+      "user_id": "usr-1792381280462",
+      "name": "Belanja Kebutuhan",
+      "type": "expense",
+      "icon": "👕",
+      "color": "#EC4899"
+    },
+    {
+      "id": "cat-usr-1792381280462-05",
+      "user_id": "usr-1792381280462",
+      "name": "Gaji & Pendapatan",
+      "type": "income",
+      "icon": "💰",
+      "color": "#059669"
+    }
+  ],
+  "budgets": [],
+  "transactions": [],
+  "receiptItems": [],
+  "payments": [
+    {
+      "order_id": "REG-1792381280462",
+      "user_id": "usr-1792381280462",
+      "type": "registration_verification",
+      "full_name": "User Test 280427",
+      "phone_number": "0812280427",
+      "email": "user_280427@tatadana.id",
+      "amount": 0,
+      "plan_tier": "starter",
+      "status": "settlement",
+      "created_at": "2026-10-19T03:41:20.477Z"
+    },
+    {
+      "order_id": "REG-1792380725405",
+      "user_id": "usr-1792380725405",
+      "type": "registration_verification",
+      "full_name": "Budi Login Test",
+      "phone_number": "081298765432",
+      "email": "budi_login_test@gmail.com",
+      "amount": 0,
+      "plan_tier": "starter",
+      "status": "settlement",
+      "created_at": "2026-10-19T03:32:05.405Z"
+    },
+    {
+      "order_id": "REG-1792377607081",
+      "user_id": "usr-1792377607081",
+      "type": "registration_verification",
+      "full_name": "Dewi Lestari Phone Only",
+      "phone_number": "+6285511223344",
+      "email": "test_approval_user3@tatadana.com",
+      "amount": 0,
+      "plan_tier": "starter",
+      "status": "settlement",
+      "created_at": "2026-10-19T02:40:07.081Z"
+    },
+    {
+      "order_id": "REG-1792377607054",
+      "user_id": "usr-1792377607054",
+      "type": "registration_verification",
+      "full_name": "Siti Aminah Approval",
+      "phone_number": "+6285598765432",
+      "email": "test_approval_user2@tatadana.com",
+      "amount": 0,
+      "plan_tier": "starter",
+      "status": "settlement",
+      "created_at": "2026-10-19T02:40:07.054Z"
+    },
+    {
+      "order_id": "REG-1792377607019",
+      "user_id": "usr-1792377607019",
+      "type": "registration_verification",
+      "full_name": "Rian Perdana Approval",
+      "phone_number": "+6285512345678",
+      "email": "test_approval_flow@tatadana.com",
+      "amount": 0,
+      "plan_tier": "starter",
+      "status": "settlement",
+      "created_at": "2026-10-19T02:40:07.019Z"
+    },
+    {
+      "order_id": "REG-1792375024281",
+      "user_id": "usr-1792375024281",
+      "type": "registration_verification",
+      "full_name": "Test User Verifikasi Admin",
+      "phone_number": "+6287711223344",
+      "email": "test_user_verif@tatadana.com",
+      "amount": 0,
+      "plan_tier": "starter",
+      "status": "pending",
+      "created_at": "2026-10-19T01:57:04.281Z"
+    },
+    {
+      "order_id": "REG-1792374888259",
+      "user_id": "usr-1792374888259",
+      "type": "registration_verification",
+      "full_name": "Budi Santoso Bersih",
+      "phone_number": "+628123456789",
+      "email": "pengguna_baru_bersih@tatadana.com",
+      "amount": 0,
+      "plan_tier": "starter",
+      "status": "pending",
+      "created_at": "2026-10-19T01:54:48.259Z"
+    },
+    {
+      "order_id": "REG-1792374216388",
+      "user_id": "usr-1792374216387",
+      "type": "registration_verification",
+      "full_name": "Ahmad Santoso",
+      "phone_number": "081299887766",
+      "email": "ahmad@gmail.com",
+      "amount": 0,
+      "plan_tier": "starter",
+      "status": "pending",
+      "created_at": "2026-10-19T01:43:36.387Z"
+    }
+  ],
+  "adminAuditLogs": [
+    {
+      "id": "aud-1792381280511",
+      "action": "APPROVED_REGISTRATION",
+      "details": "Pendaftaran REG-1792381280462 (User Test 280427 - 0812280427) disetujui & diverifikasi WhatsApp oleh Superadmin. Akun aktif.",
+      "admin": "Super Admin Nandika Pratama (@nandikapratama)",
+      "created_at": "2026-10-19T03:41:20.511Z"
+    },
+    {
+      "id": "aud-1792381280477",
+      "action": "REGISTRATION_QUEUED",
+      "details": "Profil pengguna baru User Test 280427 (0812280427) masuk ke Antrean Verifikasi & Approval Admin.",
+      "admin": "Sistem Registrasi",
+      "created_at": "2026-10-19T03:41:20.477Z"
+    },
+    {
+      "id": "aud-1792380725438",
+      "action": "APPROVED_REGISTRATION",
+      "details": "Pendaftaran REG-1792380725405 (Budi Login Test - 081298765432) disetujui & diverifikasi WhatsApp oleh Superadmin. Akun aktif.",
+      "admin": "Super Admin Nandika Pratama (@nandikapratama)",
+      "created_at": "2026-10-19T03:32:05.438Z"
+    },
+    {
+      "id": "aud-1792380725405",
+      "action": "REGISTRATION_QUEUED",
+      "details": "Profil pengguna baru Budi Login Test (081298765432) masuk ke Antrean Verifikasi & Approval Admin.",
+      "admin": "Sistem Registrasi",
+      "created_at": "2026-10-19T03:32:05.405Z"
+    },
+    {
+      "id": "aud-1792377607095",
+      "action": "APPROVED_REGISTRATION",
+      "details": "Pendaftaran REG-1792377607081 (Dewi Lestari Phone Only - +6285511223344) disetujui & diverifikasi WhatsApp oleh Superadmin. Akun aktif.",
+      "admin": "Super Admin Nandika Pratama (@nandikapratama)",
+      "created_at": "2026-10-19T02:40:07.095Z"
+    },
+    {
+      "id": "aud-1792377607082",
+      "action": "REGISTRATION_QUEUED",
+      "details": "Profil pengguna baru Dewi Lestari Phone Only (+6285511223344) masuk ke Antrean Verifikasi & Approval Admin.",
+      "admin": "Sistem Registrasi",
+      "created_at": "2026-10-19T02:40:07.082Z"
+    },
+    {
+      "id": "aud-1792377607068",
+      "action": "APPROVED_REGISTRATION",
+      "details": "Pendaftaran REG-1792377607054 (Siti Aminah Approval - +6285598765432) disetujui & diverifikasi WhatsApp oleh Superadmin. Akun aktif.",
+      "admin": "Super Admin Nandika Pratama (@nandikapratama)",
+      "created_at": "2026-10-19T02:40:07.068Z"
+    },
+    {
+      "id": "aud-1792377607054",
+      "action": "REGISTRATION_QUEUED",
+      "details": "Profil pengguna baru Siti Aminah Approval (+6285598765432) masuk ke Antrean Verifikasi & Approval Admin.",
+      "admin": "Sistem Registrasi",
+      "created_at": "2026-10-19T02:40:07.054Z"
+    },
+    {
+      "id": "aud-1792377607038",
+      "action": "APPROVED_REGISTRATION",
+      "details": "Pendaftaran REG-1792377607019 (Rian Perdana Approval - +6285512345678) disetujui & diverifikasi WhatsApp oleh Superadmin. Akun aktif.",
+      "admin": "Super Admin Nandika Pratama (@nandikapratama)",
+      "created_at": "2026-10-19T02:40:07.038Z"
+    },
+    {
+      "id": "aud-1792377607019",
+      "action": "REGISTRATION_QUEUED",
+      "details": "Profil pengguna baru Rian Perdana Approval (+6285512345678) masuk ke Antrean Verifikasi & Approval Admin.",
+      "admin": "Sistem Registrasi",
+      "created_at": "2026-10-19T02:40:07.019Z"
+    },
+    {
+      "id": "aud-1792375024281",
+      "action": "REGISTRATION_QUEUED",
+      "details": "Profil pengguna baru Test User Verifikasi Admin (+6287711223344) masuk ke Antrean Verifikasi & Approval Admin.",
+      "admin": "Sistem Registrasi",
+      "created_at": "2026-10-19T01:57:04.281Z"
+    },
+    {
+      "id": "aud-1792374888259",
+      "action": "REGISTRATION_QUEUED",
+      "details": "Profil pengguna baru Budi Santoso Bersih (+628123456789) masuk ke Antrean Verifikasi & Approval Admin.",
+      "admin": "Sistem Registrasi",
+      "created_at": "2026-10-19T01:54:48.259Z"
+    },
+    {
+      "id": "aud-1792374216388",
+      "action": "REGISTRATION_QUEUED",
+      "details": "Profil pengguna baru Ahmad Santoso (081299887766) masuk ke Antrean Verifikasi & Approval Admin.",
+      "admin": "Sistem Registrasi",
+      "created_at": "2026-10-19T01:43:36.388Z"
+    },
+    {
+      "id": "aud-001",
+      "action": "SYSTEM_BOOT",
+      "details": "TataDana Core Server v2.0 aktif siap melayani transaksi.",
+      "admin": "Sistem",
+      "created_at": "2026-10-19T01:39:27.036Z"
+    }
+  ],
+  "aiMode": "failover"
+}
