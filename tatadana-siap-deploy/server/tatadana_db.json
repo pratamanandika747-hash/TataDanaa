@@ -9,9 +9,10 @@
       "full_name": "Pengguna TataDana",
       "role": "user",
       "plan_tier": "starter",
-      "password": "user123",
       "avatar_url": null,
-      "created_at": "2026-10-30T12:00:00.000Z"
+      "created_at": "2026-10-30T12:00:00.000Z",
+      "password_hash": "scrypt$756114091c98cbca57d0e72b0e3c2905$3bdbe1578a910559ee938866adf1a091a110f78b521839f3dcef46ff83894734c9b860fdfa33aa2b57366d28ee2f9ce7c06091409707b807330fae98d1d9275d",
+      "approval_status": "approved"
     },
     {
       "id": "usr-admin-001",
@@ -22,116 +23,168 @@
       "full_name": "Nandika Pratama (Super Admin)",
       "role": "superadmin",
       "plan_tier": "pro",
-      "password": "nandika@1234",
-      "avatar_url": null
+      "avatar_url": null,
+      "password_hash": "scrypt$83a8afb4559ad3dbb2a91d3bc5ff171f$f498815c5401114aa31f7fb28628ca5bd1985172e3895fb5586006b865b75aa043b3cc6703085440efdc7f3cf9a35ee4028baa8a9f90a0f6c48d8a7e38775840",
+      "approval_status": "approved"
     },
     {
       "id": "usr-1792374216387",
       "email": "ahmad@gmail.com",
       "phone_number": "081299887766",
       "full_name": "Ahmad Santoso",
-      "password": "password123",
       "role": "user",
       "plan_tier": "starter",
       "phone_verified": false,
       "whatsapp_verified": false,
-      "created_at": "2026-10-19T01:43:36.387Z"
+      "created_at": "2026-10-19T01:43:36.387Z",
+      "password_hash": "scrypt$1b3764c8c8f176fe9b43a3ce9a1f1b5d$7113c1eacbefd9a252d729ca0d19d76e6693060dfa79d590142f2fc6ac5b62f21178c01e03a77bb49e0cc7e31f1eee326064feb3e2cb7e8c3aede17fad251a3e",
+      "approval_status": "pending"
     },
     {
       "id": "usr-1792374888259",
       "email": "pengguna_baru_bersih@tatadana.com",
       "phone_number": "+628123456789",
       "full_name": "Budi Santoso Bersih",
-      "password": "password123",
       "role": "user",
       "plan_tier": "starter",
       "phone_verified": false,
       "whatsapp_verified": false,
-      "created_at": "2026-10-19T01:54:48.259Z"
+      "created_at": "2026-10-19T01:54:48.259Z",
+      "password_hash": "scrypt$016d590be7572d6d85c879b069e5dee0$7c520c497eaf16ba2efded37e830f0d4d9600eeff1e1104639e501911cfdc64fb10b1d82182690a8fe21bd4ddde3f0cf4c79984a9b588e74623e9cfa651fed1e",
+      "approval_status": "pending"
     },
     {
       "id": "usr-1792375024281",
       "email": "test_user_verif@tatadana.com",
       "phone_number": "+6287711223344",
       "full_name": "Test User Verifikasi Admin",
-      "password": "password123",
       "role": "user",
       "plan_tier": "starter",
       "phone_verified": false,
       "whatsapp_verified": false,
-      "created_at": "2026-10-19T01:57:04.281Z"
+      "created_at": "2026-10-19T01:57:04.281Z",
+      "password_hash": "scrypt$fd70e7b4dc73dd3c9ee2ae83859fe52a$a37183c283def55384392e23366805382517cbafd36766eb30e6d2d83ce6760337628b9fc1369f4542922a7b911b7704498314bea8a7f68efd50ed1a8e6c1a3e",
+      "approval_status": "pending"
     },
     {
       "id": "usr-1792377607019",
       "email": "test_approval_flow@tatadana.com",
       "phone_number": "+6285512345678",
       "full_name": "Rian Perdana Approval",
-      "password": "password123",
       "role": "user",
       "plan_tier": "starter",
       "phone_verified": true,
       "whatsapp_verified": true,
-      "created_at": "2026-10-19T02:40:07.019Z"
+      "created_at": "2026-10-19T02:40:07.019Z",
+      "password_hash": "scrypt$3ea2c36246072e4a163ab0c9b15ab940$e38848267b8aca9e14f694268f952d94397d9c3779de8e2c90525bc3573b49dd9b8c2765b9c38a42ac96e84857581fb3c2449d113338690ea9d816ce0ad4e851",
+      "approval_status": "approved"
     },
     {
       "id": "usr-1792377607054",
       "email": "test_approval_user2@tatadana.com",
       "phone_number": "+6285598765432",
       "full_name": "Siti Aminah Approval",
-      "password": "password123",
       "role": "user",
       "plan_tier": "starter",
       "phone_verified": true,
       "whatsapp_verified": true,
-      "created_at": "2026-10-19T02:40:07.054Z"
+      "created_at": "2026-10-19T02:40:07.054Z",
+      "password_hash": "scrypt$1d4025d829faa7cdba6b11837249add9$2b5536d3049cfb37f5a66abc319715da542e1c7a3ba0ad05ef8f4c7904999814594059f7a56adbad4396353140bbb771dcfbbe83c3c6fc2ef77b9b5219f7b146",
+      "approval_status": "approved"
     },
     {
       "id": "usr-1792377607081",
       "email": "test_approval_user3@tatadana.com",
       "phone_number": "+6285511223344",
       "full_name": "Dewi Lestari Phone Only",
-      "password": "password123",
       "role": "user",
       "plan_tier": "starter",
       "phone_verified": true,
       "whatsapp_verified": true,
-      "created_at": "2026-10-19T02:40:07.081Z"
+      "created_at": "2026-10-19T02:40:07.081Z",
+      "password_hash": "scrypt$41aee8ad86ff664e166b433613ed40f5$09849f87d36195ddfccd52ed7f77c845ae31dfbcf5e3f99eeb0bf36dc5c66d98462c32746e51640017d87a69a383c114beeb2f5c6f5001dd14dfbc367c2720a4",
+      "approval_status": "approved"
     },
     {
       "id": "usr-1792380725405",
       "email": "budi_login_test@gmail.com",
       "phone_number": "081298765432",
       "full_name": "Budi Login Test",
-      "password": "password123",
       "role": "user",
       "plan_tier": "starter",
       "phone_verified": true,
       "whatsapp_verified": true,
-      "created_at": "2026-10-19T03:32:05.405Z"
+      "created_at": "2026-10-19T03:32:05.405Z",
+      "password_hash": "scrypt$cff0b33ed0aa4391d8717d5d503d22f8$a2f554b697c722e0b1f517377347bbb6ef6369e8b1f6cf9918a59f827a13ca473cadc69acd1f76446222908d827006aef6a1be5a43eec2aaa7ea001049460c72",
+      "approval_status": "approved"
     },
     {
       "id": "usr-1792381280462",
       "email": "user_280427@tatadana.id",
       "phone_number": "0812280427",
       "full_name": "User Test 280427",
-      "password": "password123",
       "role": "user",
       "plan_tier": "starter",
       "phone_verified": true,
       "whatsapp_verified": true,
-      "created_at": "2026-10-19T03:41:20.477Z"
+      "created_at": "2026-10-19T03:41:20.477Z",
+      "password_hash": "scrypt$b43782f798d3d7d4acbcb049464d5002$f2c3ca41e94e49eaa81d5dfe6cd85b61bad587cb685f6c926f775744de0e6b8d53b3168c331a04f6d85c82cbab15138da585517ad1533f95d9558ae8ef5e51ef",
+      "approval_status": "approved"
     },
     {
       "id": "usr-1793412577318",
       "email": "budi_test@tatadana.id",
       "phone_number": "+6281299998888",
       "full_name": "Budi Santoso Testing",
-      "password": "password123",
       "role": "user",
       "plan_tier": "starter",
       "phone_verified": true,
       "whatsapp_verified": true,
-      "created_at": "2026-10-31T02:09:37.318Z"
+      "created_at": "2026-10-31T02:09:37.318Z",
+      "password_hash": "scrypt$98ea03d62921b59f5ae8bb8be30fdc25$a501505b59dee5a94002c6fdc2959facb149302e0cdd77cd86e21eb950902ad14b1746bff8bcef188aef15410d7c4b1029afbe959ff1d1264b14875b0f1ab7a5",
+      "approval_status": "approved"
+    },
+    {
+      "id": "usr-1793414838821",
+      "email": "user_1793414836915@tatadana.id",
+      "phone_number": "081268616216",
+      "full_name": "Duplicate Tester",
+      "password_hash": "scrypt$e76f329cc1e7e3131fdeb53c8409e732$202f8ed3f5814185b0d552a72661ea2406e987f5cb32b29da5f4bc16f86991107d2800009490c54523d98cdfdc95bc9dcdd715602dceb85efc85b7fe7ddb1078",
+      "role": "user",
+      "plan_tier": "starter",
+      "phone_verified": true,
+      "whatsapp_verified": true,
+      "approval_status": "approved",
+      "created_at": "2026-10-31T02:47:18.902Z",
+      "updated_at": "2026-10-31T02:47:18.902Z"
+    },
+    {
+      "id": "usr-1793415005611",
+      "email": "user_1793415005573@tatadana.id",
+      "phone_number": "081266154522",
+      "full_name": "Budi Santoso (Elite Tester)",
+      "password_hash": "scrypt$8a374d53ff2bc397376a4e5c4972c886$4f9a882c4d6049077446ec3927d8e08eb1e8c390223d4ed922fdb0f284a9aab611e14f6eafc158ace730ea6414d5f33a11b023315013e4ec9ea5bfc192d00539",
+      "role": "user",
+      "plan_tier": "starter",
+      "phone_verified": true,
+      "whatsapp_verified": true,
+      "approval_status": "approved",
+      "created_at": "2026-10-31T02:50:05.689Z",
+      "updated_at": "2026-10-31T02:50:05.689Z"
+    },
+    {
+      "id": "usr-1793415269154",
+      "email": "user_1793415269117@tatadana.id",
+      "phone_number": "081284398117",
+      "full_name": "Budi Santoso (Elite Tester)",
+      "password_hash": "scrypt$416988d52c3df91111bf46c6d6fccaf8$5f4b7adf8180db0ebd71db99c2be52d7990fb633cda7fd1797db3e63994aa8b4fffaf698ec321c554ed3e75ed8286c41d1c3a425ffb9d5def2ff38ecbbf6d66d",
+      "role": "user",
+      "plan_tier": "starter",
+      "phone_verified": true,
+      "whatsapp_verified": true,
+      "approval_status": "approved",
+      "created_at": "2026-10-31T02:54:29.233Z",
+      "updated_at": "2026-10-31T02:54:29.233Z"
     }
   ],
   "wallets": [
@@ -230,7 +283,7 @@
       "user_id": "usr-new-001",
       "name": "Dompet Utama",
       "wallet_type": "cash",
-      "balance": 0,
+      "balance": 450000,
       "is_default_telegram": true,
       "color": "#FF5B00",
       "icon": "💵"
@@ -244,6 +297,39 @@
       "is_default_telegram": true,
       "color": "#FF5B00",
       "icon": "💵"
+    },
+    {
+      "id": "w-usr-1793414838821-1",
+      "user_id": "usr-1793414838821",
+      "name": "Dompet Utama",
+      "wallet_type": "cash",
+      "balance": 0,
+      "is_default_telegram": true,
+      "color": "#FF5B00",
+      "icon": "💵",
+      "created_at": "2026-10-31T02:47:19.014Z"
+    },
+    {
+      "id": "w-usr-1793415005611-1",
+      "user_id": "usr-1793415005611",
+      "name": "Dompet Utama",
+      "wallet_type": "cash",
+      "balance": 0,
+      "is_default_telegram": true,
+      "color": "#FF5B00",
+      "icon": "💵",
+      "created_at": "2026-10-31T02:50:05.689Z"
+    },
+    {
+      "id": "w-usr-1793415269154-1",
+      "user_id": "usr-1793415269154",
+      "name": "Dompet Utama",
+      "wallet_type": "cash",
+      "balance": 0,
+      "is_default_telegram": true,
+      "color": "#FF5B00",
+      "icon": "💵",
+      "created_at": "2026-10-31T02:54:29.233Z"
     }
   ],
   "categories": [
@@ -646,12 +732,235 @@
       "type": "income",
       "icon": "💰",
       "color": "#059669"
+    },
+    {
+      "id": "cat-usr-1793414838821-01",
+      "user_id": "usr-1793414838821",
+      "name": "Makanan & Minuman",
+      "type": "expense",
+      "icon": "🍜",
+      "color": "#F97316"
+    },
+    {
+      "id": "cat-usr-1793414838821-02",
+      "user_id": "usr-1793414838821",
+      "name": "Transportasi",
+      "type": "expense",
+      "icon": "🚗",
+      "color": "#3B82F6"
+    },
+    {
+      "id": "cat-usr-1793414838821-03",
+      "user_id": "usr-1793414838821",
+      "name": "Tagihan & Utilitas",
+      "type": "expense",
+      "icon": "🏠",
+      "color": "#8B5CF6"
+    },
+    {
+      "id": "cat-usr-1793414838821-04",
+      "user_id": "usr-1793414838821",
+      "name": "Belanja Kebutuhan",
+      "type": "expense",
+      "icon": "👕",
+      "color": "#EC4899"
+    },
+    {
+      "id": "cat-usr-1793414838821-05",
+      "user_id": "usr-1793414838821",
+      "name": "Gaji & Pendapatan",
+      "type": "income",
+      "icon": "💰",
+      "color": "#059669"
+    },
+    {
+      "id": "cat-usr-1793415005611-01",
+      "user_id": "usr-1793415005611",
+      "name": "Makanan & Minuman",
+      "type": "expense",
+      "icon": "🍜",
+      "color": "#F97316"
+    },
+    {
+      "id": "cat-usr-1793415005611-02",
+      "user_id": "usr-1793415005611",
+      "name": "Transportasi",
+      "type": "expense",
+      "icon": "🚗",
+      "color": "#3B82F6"
+    },
+    {
+      "id": "cat-usr-1793415005611-03",
+      "user_id": "usr-1793415005611",
+      "name": "Tagihan & Utilitas",
+      "type": "expense",
+      "icon": "🏠",
+      "color": "#8B5CF6"
+    },
+    {
+      "id": "cat-usr-1793415005611-04",
+      "user_id": "usr-1793415005611",
+      "name": "Belanja Kebutuhan",
+      "type": "expense",
+      "icon": "👕",
+      "color": "#EC4899"
+    },
+    {
+      "id": "cat-usr-1793415005611-05",
+      "user_id": "usr-1793415005611",
+      "name": "Gaji & Pendapatan",
+      "type": "income",
+      "icon": "💰",
+      "color": "#059669"
+    },
+    {
+      "id": "cat-usr-1793415269154-01",
+      "user_id": "usr-1793415269154",
+      "name": "Makanan & Minuman",
+      "type": "expense",
+      "icon": "🍜",
+      "color": "#F97316"
+    },
+    {
+      "id": "cat-usr-1793415269154-02",
+      "user_id": "usr-1793415269154",
+      "name": "Transportasi",
+      "type": "expense",
+      "icon": "🚗",
+      "color": "#3B82F6"
+    },
+    {
+      "id": "cat-usr-1793415269154-03",
+      "user_id": "usr-1793415269154",
+      "name": "Tagihan & Utilitas",
+      "type": "expense",
+      "icon": "🏠",
+      "color": "#8B5CF6"
+    },
+    {
+      "id": "cat-usr-1793415269154-04",
+      "user_id": "usr-1793415269154",
+      "name": "Belanja Kebutuhan",
+      "type": "expense",
+      "icon": "👕",
+      "color": "#EC4899"
+    },
+    {
+      "id": "cat-usr-1793415269154-05",
+      "user_id": "usr-1793415269154",
+      "name": "Gaji & Pendapatan",
+      "type": "income",
+      "icon": "💰",
+      "color": "#059669"
     }
   ],
   "budgets": [],
-  "transactions": [],
+  "transactions": [
+    {
+      "id": "tx-1793415257325",
+      "user_id": "usr-new-001",
+      "wallet_id": "w-usr-new-001-1",
+      "category_id": "cat-01",
+      "type": "pengeluaran",
+      "amount": 50000,
+      "notes": "Makan siang regression test",
+      "source": "manual_web",
+      "transaction_date": "2026-10-31T02:54:17.325Z"
+    },
+    {
+      "id": "tx-1793415257294",
+      "user_id": "usr-new-001",
+      "wallet_id": "w-usr-new-001-1",
+      "category_id": "cat-01",
+      "type": "pemasukan",
+      "amount": 500000,
+      "notes": "Gaji regression test",
+      "source": "manual_web",
+      "transaction_date": "2026-10-31T02:54:17.294Z"
+    },
+    {
+      "id": "tx-1793415169550",
+      "user_id": "usr-new-001",
+      "wallet_id": "w-usr-new-001-1",
+      "category_id": "cat-01",
+      "type": "pemasukan",
+      "amount": 500000,
+      "notes": "Gaji regression test",
+      "source": "manual_web",
+      "transaction_date": "2026-10-31T02:52:49.550Z"
+    },
+    {
+      "id": "tx-1793415156917",
+      "user_id": "usr-new-001",
+      "wallet_id": "w-usr-new-001-1",
+      "category_id": "cat-01",
+      "type": "pemasukan",
+      "amount": 500000,
+      "notes": "Gaji regression test",
+      "source": "manual_web",
+      "transaction_date": "2026-10-31T02:52:36.917Z"
+    },
+    {
+      "id": "tx-1793415136087",
+      "user_id": "usr-new-001",
+      "wallet_id": "w-usr-new-001-1",
+      "category_id": "cat-01",
+      "type": "pemasukan",
+      "amount": 500000,
+      "notes": "Gaji regression test",
+      "source": "manual_web",
+      "transaction_date": "2026-10-31T02:52:16.087Z"
+    },
+    {
+      "id": "tx-1793415119945",
+      "user_id": "usr-new-001",
+      "wallet_id": "w-usr-new-001-1",
+      "category_id": "cat-01",
+      "type": "pemasukan",
+      "amount": 500000,
+      "notes": "Gaji regression test",
+      "source": "manual_web",
+      "transaction_date": "2026-10-31T02:51:59.945Z"
+    }
+  ],
   "receiptItems": [],
   "payments": [
+    {
+      "order_id": "REG-1793415269154",
+      "user_id": "usr-1793415269154",
+      "type": "registration_verification",
+      "full_name": "Budi Santoso (Elite Tester)",
+      "phone_number": "081284398117",
+      "email": "user_1793415269117@tatadana.id",
+      "amount": 0,
+      "plan_tier": "starter",
+      "status": "settlement",
+      "created_at": "2026-10-31T02:54:29.233Z"
+    },
+    {
+      "order_id": "REG-1793415005611",
+      "user_id": "usr-1793415005611",
+      "type": "registration_verification",
+      "full_name": "Budi Santoso (Elite Tester)",
+      "phone_number": "081266154522",
+      "email": "user_1793415005573@tatadana.id",
+      "amount": 0,
+      "plan_tier": "starter",
+      "status": "settlement",
+      "created_at": "2026-10-31T02:50:05.689Z"
+    },
+    {
+      "order_id": "REG-1793414838821",
+      "user_id": "usr-1793414838821",
+      "type": "registration_verification",
+      "full_name": "Duplicate Tester",
+      "phone_number": "081268616216",
+      "email": "user_1793414836915@tatadana.id",
+      "amount": 0,
+      "plan_tier": "starter",
+      "status": "settlement",
+      "created_at": "2026-10-31T02:47:19.014Z"
+    },
     {
       "order_id": "REG-1793412577318",
       "user_id": "usr-1793412577318",
@@ -762,6 +1071,55 @@
     }
   ],
   "adminAuditLogs": [
+    {
+      "id": "aud-1793415269275",
+      "action": "APPROVED_REGISTRATION",
+      "details": "Pendaftaran REG-1793415269154 (Budi Santoso (Elite Tester) - 081284398117) disetujui & diverifikasi WhatsApp oleh Superadmin. Akun aktif.",
+      "admin": "Super Admin Nandika Pratama (@nandikapratama)",
+      "created_at": "2026-10-31T02:54:29.275Z"
+    },
+    {
+      "id": "aud-1793415269233",
+      "action": "REGISTRATION_QUEUED",
+      "details": "Profil pengguna baru Budi Santoso (Elite Tester) (081284398117) masuk ke Antrean Verifikasi & Approval Admin.",
+      "admin": "Sistem Registrasi",
+      "created_at": "2026-10-31T02:54:29.233Z"
+    },
+    {
+      "id": "aud-1793415005748",
+      "action": "APPROVED_REGISTRATION",
+      "details": "Pendaftaran REG-1793415005611 (Budi Santoso (Elite Tester) - 081266154522) disetujui & diverifikasi WhatsApp oleh Superadmin. Akun aktif.",
+      "admin": "Super Admin Nandika Pratama (@nandikapratama)",
+      "created_at": "2026-10-31T02:50:05.748Z"
+    },
+    {
+      "id": "aud-1793415005689",
+      "action": "REGISTRATION_QUEUED",
+      "details": "Profil pengguna baru Budi Santoso (Elite Tester) (081266154522) masuk ke Antrean Verifikasi & Approval Admin.",
+      "admin": "Sistem Registrasi",
+      "created_at": "2026-10-31T02:50:05.689Z"
+    },
+    {
+      "id": "aud-1793414839081",
+      "action": "APPROVED_REGISTRATION",
+      "details": "Pendaftaran REG-1793414838821 (Duplicate Tester - 081268616216) disetujui & diverifikasi WhatsApp oleh Superadmin. Akun aktif.",
+      "admin": "Super Admin Nandika Pratama (@nandikapratama)",
+      "created_at": "2026-10-31T02:47:19.081Z"
+    },
+    {
+      "id": "aud-1793414839014",
+      "action": "REGISTRATION_QUEUED",
+      "details": "Profil pengguna baru Duplicate Tester (081268616216) masuk ke Antrean Verifikasi & Approval Admin.",
+      "admin": "Sistem Registrasi",
+      "created_at": "2026-10-31T02:47:19.014Z"
+    },
+    {
+      "id": "aud-1793414838903",
+      "action": "REGISTRATION_QUEUED",
+      "details": "Profil pengguna baru Budi Santoso (Elite Tester) (081268616216) masuk ke Antrean Verifikasi & Approval Admin.",
+      "admin": "Sistem Registrasi",
+      "created_at": "2026-10-31T02:47:18.903Z"
+    },
     {
       "id": "aud-1793412577363",
       "action": "APPROVED_REGISTRATION",

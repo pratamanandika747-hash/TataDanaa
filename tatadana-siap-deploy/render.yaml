@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: tatadana
+    env: node
+    plan: free
+    region: singapore
+    buildCommand: ""
+    startCommand: node server/app_runner.cjs
+    envVars:
+      - key: NODE_ENV
+        value: production
