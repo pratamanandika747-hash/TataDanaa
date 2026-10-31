@@ -371,15 +371,17 @@ function navigate(page, updateHash = true) {
     fetchAdminStats();
     if (!window._adminPollInterval) {
       window._adminPollInterval = setInterval(async () => {
-        if (state.currentPage === 'admin') {
-          const prevCount = (state.adminPayments || []).length;
+        if (state.currentPage === 'admin' && !state.viewingUserDatabase) {
+          const prevPending = (state.adminPayments || []).filter(p => p.status === 'pending').length;
           const prevUserCount = (state.adminUsers || []).length;
           await Promise.all([fetchAdminData(), fetchAdminStats()]);
-          if ((state.adminPayments || []).length !== prevCount || (state.adminUsers || []).length !== prevUserCount) {
+          const newPending = (state.adminPayments || []).filter(p => p.status === 'pending').length;
+          const newUserCount = (state.adminUsers || []).length;
+          if (newPending !== prevPending || newUserCount !== prevUserCount) {
             render();
           }
         }
-      }, 4000);
+      }, 3000);
     }
   } else {
     if (window._adminPollInterval) {
@@ -3079,10 +3081,14 @@ function renderAdminDashboard() {
                               🎭 Impersonate
                             </button>
                             ${!isVerified ? `
-                              <button onclick="adminVerifyUserWhatsapp('${u.id}')" class="px-2.5 py-1.5 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white shadow-xs transition-colors cursor-pointer" title="Verifikasi dan aktifkan akun pengguna langsung dari dashboard">
-                                ✔ Setujui & Verifikasi
+                              <button onclick="approvePayment('REG-${u.id.replace('usr-', '')}', '${u.id}', '${(u.phone_number || '').replace(/[^0-9+]/g, '')}')" class="px-3 py-1.5 rounded-xl text-xs font-black bg-emerald-600 hover:bg-emerald-700 text-white shadow-xs transition-colors flex items-center gap-1 cursor-pointer" title="Setujui pendaftaran dan aktifkan akun WhatsApp user ini">
+                                <span>✅</span> Setujui Pendaftaran
                               </button>
-                            ` : ''}
+                            ` : `
+                              <span class="px-2 py-1 rounded-lg text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                ✔ Aktif
+                              </span>
+                            `}
                           </div>
                         </td>
                       </tr>
@@ -3391,7 +3397,16 @@ function renderAdminDashboard() {
                     </div>
                   </div>
 
-                  <div class="flex items-center gap-2">
+                  <div class="flex items-center gap-2 flex-wrap">
+                    ${!prof.whatsapp_verified ? `
+                      <button onclick="approvePayment('REG-${prof.id.replace('usr-', '')}', '${prof.id}', '${(prof.phone_number || '').replace(/[^0-9+]/g, '')}'); closeUserDatabaseModal();" class="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black shadow-md transition-colors flex items-center gap-1.5 cursor-pointer">
+                        <span>✅</span> Setujui Pendaftaran
+                      </button>
+                    ` : `
+                      <span class="px-2.5 py-1 rounded-xl bg-emerald-500/20 text-emerald-300 text-xs font-bold border border-emerald-400/30 flex items-center gap-1">
+                        <span>✔</span> Akun Aktif & Disetujui
+                      </span>
+                    `}
                     <button onclick="handleImpersonate('${prof.id}'); closeUserDatabaseModal();" class="px-3 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold shadow-xs transition-colors flex items-center gap-1.5 cursor-pointer">
                       <span>🎭</span> Impersonate
                     </button>
@@ -6479,15 +6494,17 @@ async function init() {
   // If user is viewing the Admin page, start a live polling interval for real-time registrations
   if (state.currentPage === 'admin' && !window._adminPollInterval) {
     window._adminPollInterval = setInterval(async () => {
-      if (state.currentPage === 'admin') {
-        const prevCount = (state.adminPayments || []).length;
+      if (state.currentPage === 'admin' && !state.viewingUserDatabase) {
+        const prevPending = (state.adminPayments || []).filter(p => p.status === 'pending').length;
         const prevUserCount = (state.adminUsers || []).length;
         await Promise.all([fetchAdminData(), fetchAdminStats()]);
-        if ((state.adminPayments || []).length !== prevCount || (state.adminUsers || []).length !== prevUserCount) {
+        const newPending = (state.adminPayments || []).filter(p => p.status === 'pending').length;
+        const newUserCount = (state.adminUsers || []).length;
+        if (newPending !== prevPending || newUserCount !== prevUserCount) {
           render();
         }
       }
-    }, 4000);
+    }, 3000);
   }
 }
 

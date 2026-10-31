@@ -2267,27 +2267,76 @@ async function handleRequest(req, res) {
     }
 
     if (pathname === '/api/admin/users/verify-whatsapp' && method === 'POST') {
-      const { userId } = await parseBody(req);
-      const u = db.profiles.find(x => x.id === userId);
+      loadDatabaseFromFile();
+      const body = await parseBody(req);
+      const targetUserId = String(body.userId || body.id || '').trim();
+      const targetPhone = String(body.phoneNumber || body.phone || '').trim();
+      const cleanPhone = targetPhone.replace(/[^0-9]/g, '');
+
+      let u = db.profiles.find(x => {
+        if (!x) return false;
+        if (targetUserId && x.id === targetUserId) return true;
+        if (targetUserId && x.id.replace('usr-', '') === targetUserId.replace('REG-', '').replace('usr-', '')) return true;
+        if (cleanPhone && x.phone_number && matchIndonesianPhone(x.phone_number, cleanPhone)) return true;
+        return false;
+      });
+
+      if (!u && targetUserId) {
+        const p = db.payments.find(x => x.order_id === targetUserId || x.user_id === targetUserId);
+        if (p) {
+          u = db.profiles.find(x => x.id === p.user_id);
+        }
+      }
+
       if (u) {
         u.whatsapp_verified = true;
         u.phone_verified = true;
         // Sync registration verification in db.payments
-        const qItem = db.payments.find(p => p.user_id === u.id && (p.type === 'registration_verification' || (p.order_id && p.order_id.startsWith('REG-'))));
+        let qItem = db.payments.find(p => p.user_id === u.id && (p.type === 'registration_verification' || (p.order_id && p.order_id.startsWith('REG-'))));
         if (qItem) {
           qItem.status = 'settlement';
+        } else {
+          qItem = {
+            order_id: 'REG-' + u.id.replace('usr-', ''),
+            user_id: u.id,
+            type: 'registration_verification',
+            full_name: u.full_name,
+            phone_number: u.phone_number,
+            email: u.email,
+            amount: 0,
+            plan_tier: u.plan_tier || 'starter',
+            status: 'settlement',
+            created_at: new Date().toISOString()
+          };
+          db.payments.unshift(qItem);
         }
+
+        // Ensure starter wallet exists with 0 balance
+        let userWallets = db.wallets.filter(w => w.user_id === u.id);
+        if (userWallets.length === 0) {
+          db.wallets.push({
+            id: 'w-' + u.id + '-1',
+            user_id: u.id,
+            name: 'Dompet Utama',
+            wallet_type: 'cash',
+            balance: 0,
+            is_default_telegram: true,
+            color: '#FF5B00',
+            icon: '💵'
+          });
+        }
+
         db.adminAuditLogs.unshift({
           id: 'aud-' + Date.now(),
           action: 'ADMIN_MANUAL_WHATSAPP_VERIFICATION',
-          details: `Superadmin Nandika Pratama memverifikasi nomor WhatsApp (${u.phone_number}) untuk user ${u.full_name}. Akun langsung aktif.`,
+          details: `Superadmin Nandika Pratama memverifikasi pendaftaran WhatsApp (${u.phone_number}) untuk user ${u.full_name}. Akun langsung aktif.`,
           admin: 'Nandika Pratama (@nandikapratama)',
           created_at: new Date().toISOString()
         });
         saveDatabaseToFile();
         return sendJson(res, 200, {
           success: true,
-          message: `Nomor WhatsApp ${u.phone_number} untuk ${u.full_name} berhasil diverifikasi manual oleh Superadmin! Akun sekarang AKTIF.`,
+          message: `Nomor WhatsApp ${u.phone_number} untuk ${u.full_name} berhasil disetujui & diverifikasi oleh Superadmin! Akun sekarang AKTIF.`,
           user: u
         });
       }
@@ -2423,6 +2472,23 @@ async function handleRequest(req, res) {
           created_at: u.created_at || new Date().toISOString()
         };
         db.payments.unshift(p);
+      }
+
+      // 3b. If payment exists but user profile not yet in db.profiles, create/attach user
+      if (p && !u) {
+        u = {
+          id: p.user_id || ('usr-' + Date.now()),
+          email: p.email || p.user_email || `${cleanPhone || Date.now()}@tatadana.id`,
+          phone_number: p.phone_number || p.user_phone_number || phoneNumber || '+628123456789',
+          full_name: p.full_name || p.user_full_name || body.fullName || 'Pengguna Baru',
+          password: 'user123',
+          role: 'user',
+          plan_tier: p.plan_tier || 'starter',
+          phone_verified: true,
+          whatsapp_verified: true,
+          created_at: p.created_at || new Date().toISOString()
+        };
+        db.profiles.push(u);
       }
 
       // 4. If neither exists (e.g. fresh ephemeral container), create user & payment dynamically

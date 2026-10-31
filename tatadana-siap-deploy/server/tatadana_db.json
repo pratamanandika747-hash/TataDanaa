@@ -120,6 +120,18 @@
       "phone_verified": true,
       "whatsapp_verified": true,
       "created_at": "2026-10-19T03:41:20.477Z"
+    },
+    {
+      "id": "usr-1793412577318",
+      "email": "budi_test@tatadana.id",
+      "phone_number": "+6281299998888",
+      "full_name": "Budi Santoso Testing",
+      "password": "password123",
+      "role": "user",
+      "plan_tier": "starter",
+      "phone_verified": true,
+      "whatsapp_verified": true,
+      "created_at": "2026-10-31T02:09:37.318Z"
     }
   ],
   "wallets": [
@@ -216,6 +228,16 @@
     {
       "id": "w-usr-new-001-1",
       "user_id": "usr-new-001",
+      "name": "Dompet Utama",
+      "wallet_type": "cash",
+      "balance": 0,
+      "is_default_telegram": true,
+      "color": "#FF5B00",
+      "icon": "💵"
+    },
+    {
+      "id": "w-usr-1793412577318-1",
+      "user_id": "usr-1793412577318",
       "name": "Dompet Utama",
       "wallet_type": "cash",
       "balance": 0,
@@ -584,12 +606,64 @@
       "type": "income",
       "icon": "💰",
       "color": "#059669"
+    },
+    {
+      "id": "cat-usr-1793412577318-01",
+      "user_id": "usr-1793412577318",
+      "name": "Makanan & Minuman",
+      "type": "expense",
+      "icon": "🍜",
+      "color": "#F97316"
+    },
+    {
+      "id": "cat-usr-1793412577318-02",
+      "user_id": "usr-1793412577318",
+      "name": "Transportasi",
+      "type": "expense",
+      "icon": "🚗",
+      "color": "#3B82F6"
+    },
+    {
+      "id": "cat-usr-1793412577318-03",
+      "user_id": "usr-1793412577318",
+      "name": "Tagihan & Utilitas",
+      "type": "expense",
+      "icon": "🏠",
+      "color": "#8B5CF6"
+    },
+    {
+      "id": "cat-usr-1793412577318-04",
+      "user_id": "usr-1793412577318",
+      "name": "Belanja Kebutuhan",
+      "type": "expense",
+      "icon": "👕",
+      "color": "#EC4899"
+    },
+    {
+      "id": "cat-usr-1793412577318-05",
+      "user_id": "usr-1793412577318",
+      "name": "Gaji & Pendapatan",
+      "type": "income",
+      "icon": "💰",
+      "color": "#059669"
     }
   ],
   "budgets": [],
   "transactions": [],
   "receiptItems": [],
   "payments": [
+    {
+      "order_id": "REG-1793412577318",
+      "user_id": "usr-1793412577318",
+      "type": "registration_verification",
+      "full_name": "Budi Santoso Testing",
+      "phone_number": "+6281299998888",
+      "email": "budi_test@tatadana.id",
+      "amount": 0,
+      "plan_tier": "starter",
+      "status": "settlement",
+      "created_at": "2026-10-31T02:09:37.318Z"
+    },
     {
       "order_id": "REG-1792381280462",
       "user_id": "usr-1792381280462",
@@ -688,6 +762,20 @@
     }
   ],
   "adminAuditLogs": [
+    {
+      "id": "aud-1793412577363",
+      "action": "APPROVED_REGISTRATION",
+      "details": "Pendaftaran REG-1793412577318 (Budi Santoso Testing - +6281299998888) disetujui & diverifikasi WhatsApp oleh Superadmin. Akun aktif.",
+      "admin": "Super Admin Nandika Pratama (@nandikapratama)",
+      "created_at": "2026-10-31T02:09:37.363Z"
+    },
+    {
+      "id": "aud-1793412577318",
+      "action": "REGISTRATION_QUEUED",
+      "details": "Profil pengguna baru Budi Santoso Testing (+6281299998888) masuk ke Antrean Verifikasi & Approval Admin.",
+      "admin": "Sistem Registrasi",
+      "created_at": "2026-10-31T02:09:37.318Z"
+    },
     {
       "id": "aud-1792381280511",
       "action": "APPROVED_REGISTRATION",
